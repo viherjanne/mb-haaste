@@ -53,16 +53,26 @@ routes.post('/api/contacts', async (req, res) => {
   return res.send(contacts)
 })
 
+/**
+ *  MB-TODO: Let's assume application uses relation database (like PostgreSQL). The database has following tables:
+ *  - customer (customer_id SERIAL PRIMARY KEY, name TEXT NOT NULL, country TEXT, is_active BOOLEAN)
+ *  - contact (contact_id SERIAL PRIMARY KEY, first_name TEXT NOT NULL, last_name TEXT NOT NULL)
+ *  - customer_contact (customer_id REFERENCES customer, contact_id REFERENCES contact, PRIMARY KEY(customer_id, contact_id))
+*/
+
+// MB-TODO: Write a SQL query in comment how to fetch a contacts of customer using provided database pseudo schema
 // MB-TODO: Create route for fetching contacts of a customer `/api/customers/:customerId/contacts`
 routes.get('/api/customers/:customerId/contacts', async (req, res) => {
   throw new NotImplemented()
 })
 
+// MB-TODO: Write a SQL query in comment how to upsert a contacts to a customer using provided database pseudo schema
 // MB-TODO: Create route for adding contact to a customer `/api/customers/:customerId/contacts`
 routes.post('/api/customers/:customerId/contacts', async (req, res) => {
   throw new NotImplemented()
 })
 
+// MB-TODO: Write a SQL query in comment how to delete a contact of customer using provided database pseudo schema
 // MB-TODO:s Create route for deleting contact of customer `/api/customers/:customerId/contacts/:contactId`
 routes.delete('/api/customers/:customerId/contacts/:contactId', async (req, res) => {
   throw new NotImplemented()
