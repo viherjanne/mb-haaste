@@ -1,12 +1,30 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom';
 import MBTodo from './MBTodo';
+import DropdownBoolean from './components/filters/DropdownBoolean';
+import { useState } from 'react';
 
 const Table = ({ customers }) => {
   const navigate = useNavigate();
 
   const clicker = (customer) => {
     navigate(customer.id);
+  }
+
+  const [filteredCustomers, setFilteredCustomers] = useState(customers);
+  let filters = {
+    isActive: null,
+  };
+
+  const filterCustomers = (newFilters) => {
+    filters = {
+      ...filters,
+      ...newFilters
+    };
+
+    setFilteredCustomers(customers.filter((customer) => {
+      return filters.isActive === null || customer.isActive === filters.isActive;
+    }));
   }
 
   return (
@@ -17,7 +35,11 @@ const Table = ({ customers }) => {
           {' '}
           Filters
           <div>
-            <MBTodo isCompleted={false} task='Create solution to filters customers by activity' />
+            <MBTodo isCompleted={true} task='Create solution to filters customers by activity' />
+            <DropdownBoolean 
+              labels={{true: 'Show only active', false: 'Show only inactive'}}
+              changeHandler={(value) => {filterCustomers({isActive: value})}}
+            />
           </div>
         </div>
       </div>
@@ -31,7 +53,7 @@ const Table = ({ customers }) => {
           </tr>
         </thead>
         <tbody>
-          {customers.map((customer, index) => {
+          {filteredCustomers.map((customer, index) => {
             return (
               <tr
                 key={index}
