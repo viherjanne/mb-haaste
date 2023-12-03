@@ -140,3 +140,11 @@ export const createCustomerContact = createAsyncThunk(
     return result
   }
 )
+
+export const deleteCustomerContact = createAsyncThunk(
+  'customers/contacts/delete',
+  async (data) => {
+    const result = await client(`/api/customers/${data.customerId}/contacts/${data.contactId}`, { method: 'DELETE' })
+    return result
+  }
+)

@@ -80,7 +80,9 @@ routes.post('/api/customers/:customerId/contacts', async (req, res) => {
 // MB-TODO: Write a SQL query in comment how to delete a contact of customer using provided database pseudo schema
 // MB-TODO:s Create route for deleting contact of customer `/api/customers/:customerId/contacts/:contactId`
 routes.delete('/api/customers/:customerId/contacts/:contactId', async (req, res) => {
-  throw new NotImplemented()
+  const { customerId, contactId } = req.params
+  const result = await CustomerContacts.delete(customerId, contactId)
+  return res.send(result)
 })
 
 export default routes

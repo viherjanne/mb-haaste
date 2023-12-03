@@ -1,9 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
 import NewCustomerContact from './components/NewCustomerContact'
+import { deleteCustomerContact } from './customerSlices'
 const Table = ({ customerId, contacts }) => {
+  const dispatch = useDispatch()
   const customerContacts = [
-    // { customerId: 'id-1', contactId: 'id-11' } // MB-TODO: Example response
+    { customerId: 'id-17795', contactId: 'id-12918' } // MB-TODO: Example response
   ]
+
+  const deleteContact = (customerId, contactId) => {
+    dispatch(deleteCustomerContact({customerId, contactId}))
+  }
   // MB-TODO: Implement fetch customer's contacts
   // MB-TODO: Implement add contact to customer
   // MB-TODO: Implement remove contact of customer
@@ -27,6 +34,7 @@ const Table = ({ customerId, contacts }) => {
                 <td>
                   <button
                     className='btn btn-danger'
+                    onClick={() => deleteContact(customerContact.customerId, customerContact.contactId)}
                   >
                     Delete
                   </button>
