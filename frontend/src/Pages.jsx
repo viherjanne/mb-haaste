@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import CustomerTable from './CustomerTable'
 import ContactTable from './ContactTable'
 import CustomerContactTable from './CustomerContactTable'
 import { useParams } from 'react-router-dom'
 import MBTodo from './MBTodo'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCustomerById, fetchCustomers } from './customerSlices'
+import { fetchCustomerById, fetchCustomers, updateCustomer } from './customerSlices'
 import { fetchContacts } from './contactSlices'
 import NewCustomer from './NewCustomer'
 
@@ -71,17 +71,36 @@ export const Customers = () => {
 export const Customer = () => {
   const { customerId } = useParams()
   const { data: customer } = useCustomer(customerId)
+
+  const dispatch = useDispatch()
+  const { data: customers, status, error, refetch } = useCustomers()
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const saveCustomer = async (customer) => {
+    const response = await dispatch(updateCustomer(customer))
+
+    if (response.meta.requestStatus === 'fulfilled') {
+      setShowSuccess(true)
+      setTimeout(() => {setShowSuccess(false)}, 2000)
+    }
+  }
+
   return (
     <div className='m-5'>
+      {showSuccess ? <div className="fixed-top text-center text-bg-success">Saved</div> : null}
       <h1 className='fw-bold'>Customer</h1>
       {customer
         ? <div>
           <form className='mb-5' onSubmit={event => {
             // MB-TODO: Handle customer update
             event.preventDefault()
+            const form = event.currentTarget
+            const formElements = form.elements
+            saveCustomer({...customer, isActive: form.elements.isActive.checked})
           }}>
             <MBTodo
-              isCompleted={false}
+              isCompleted={true}
               task='Create solution to update customers `isActivity` field. NOTE: update api `/api/customer/:customerId` expects complete customer data to be sent along request body' />
             <div className='d-flex flex-row gap-4 mb-3'>
               <div>
@@ -94,7 +113,7 @@ export const Customer = () => {
               </div>
               <div>
                 <label htmlFor="isActive" className="form-label">Activity</label>
-                <input className="form-control" id="isActive" value={customer.isActive ? 'Active' : 'Inactive'} />
+                <input type="checkbox" className="form-check-input d-block" id="isActive" defaultChecked={customer.isActive} />
               </div>
             </div>
             <button className='btn btn-primary' type='submit'>Save</button>

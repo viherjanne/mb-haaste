@@ -30,7 +30,9 @@ routes.post('/api/customers', async (req, res) => {
 
 // MB-TODO: Create route for updating customer
 routes.put('/api/customers/:customerId', async (req, res) => {
-  throw new NotImplemented()
+  const { customerId } = req.params;
+  const customer = await Customers.update(customerId, req.body)
+  return res.send(customer);
 })
 
 // Contacts
