@@ -1,9 +1,25 @@
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
 import NewCustomerContact from './components/NewCustomerContact'
+import { fetchCustomerContacts } from './customerSlices'
 import { deleteCustomerContact } from './customerSlices'
+
+const useCustomerContacts = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchCustomerContacts())
+  }, [dispatch])
+  const refetch = () => dispatch(fetchCustomerContacts())
+  const { data, status, error } = useSelector(state => state.customerContacts)
+  return { data, status, error, refetch }
+}
+
 const Table = ({ customerId, contacts }) => {
   const dispatch = useDispatch()
+  // Fetching not working. Remove these comments and comment out customerContacts below to see the error
+  //const { data: customerContacts, status, error, refetch } = useCustomerContacts()
+
   const customerContacts = [
     { customerId: 'id-17795', contactId: 'id-12918' } // MB-TODO: Example response
   ]
@@ -16,6 +32,11 @@ const Table = ({ customerId, contacts }) => {
   // MB-TODO: Implement remove contact of customer
   return (
     <>
+      <button className='btn btn-success' /*onClick={refetch}*/>
+        <i className="bi bi-arrow-clockwise" />
+        {' '}
+        Refresh
+      </button>
       <NewCustomerContact customerId={customerId} contacts={contacts} />
       <table className="table table-hover">
         <thead>

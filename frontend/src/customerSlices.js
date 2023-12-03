@@ -84,6 +84,29 @@ const customersSlice = createSlice({
           state.currentRequestId = null
         }
       })
+      .addCase(fetchCustomerContacts.pending, (state, action) => {
+        const { requestId } = action.meta
+        if(state.status === 'idle') {
+          state.status = 'pending'
+          state.currentRequestId = requestId
+        }
+      })
+      .addCase(fetchCustomerContacts.fulfilled, (state, action) => {
+        const { requestId } = action.meta
+        if(state.status === 'pending' && state.currentRequestId === requestId) {
+          state.status = 'idle'
+          state.data = state.data.concat(action.payload)
+          state.currentRequestId = null
+        }
+      })
+      .addCase(fetchCustomerContacts.rejected, (state, action) => {
+        const { requestId } = action.meta
+        if(state.status === 'pending' && state.currentRequestId === requestId) {
+          state.status = 'idle'
+          state.error = action.error
+          state.currentRequestId = null
+        }
+      })
   },
 })
 export const customerReducer = customersSlice.reducer
@@ -145,6 +168,14 @@ export const deleteCustomerContact = createAsyncThunk(
   'customers/contacts/delete',
   async (data) => {
     const result = await client(`/api/customers/${data.customerId}/contacts/${data.contactId}`, { method: 'DELETE' })
+    return result
+  }
+)
+
+export const fetchCustomerContacts = createAsyncThunk(
+  'customers/contacts/fetch',
+  async (data) => {
+    const result = await client(`/api/customers/${data.customerId}/contacts`)
     return result
   }
 )
