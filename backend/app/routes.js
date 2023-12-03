@@ -71,7 +71,10 @@ routes.get('/api/customers/:customerId/contacts', async (req, res) => {
 // MB-TODO: Write a SQL query in comment how to upsert a contacts to a customer using provided database pseudo schema
 // MB-TODO: Create route for adding contact to a customer `/api/customers/:customerId/contacts`
 routes.post('/api/customers/:customerId/contacts', async (req, res) => {
-  throw new NotImplemented()
+  const { customerId} = req.params
+  const { contactId } = req.body
+  const customerContact = await CustomerContacts.add(customerId, contactId)
+  return res.send(customerContact)
 })
 
 // MB-TODO: Write a SQL query in comment how to delete a contact of customer using provided database pseudo schema

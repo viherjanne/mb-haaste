@@ -74,6 +74,7 @@ export const Customer = () => {
 
   const dispatch = useDispatch()
   const { data: customers, status, error, refetch } = useCustomers()
+  const { data: contacts } = useContacts()
 
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -121,9 +122,9 @@ export const Customer = () => {
           <div>
             <p className='fw-bold'>Customer contacts</p>
             <MBTodo
-              isCompleted={false}
+              isCompleted={true}
               task='Continue CustomerContact table implementation' />
-            <CustomerContactTable customerId={customerId} />
+            <CustomerContactTable customerId={customerId} contacts={contacts} />
           </div>
         </div>
         : null

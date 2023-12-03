@@ -133,3 +133,10 @@ export const updateCustomer = createAsyncThunk(
 )
 
 // MB-TODO: create action for creating customer contacts. NOTE: remember to add them to `customerSlice`
+export const createCustomerContact = createAsyncThunk(
+  'customers/contacts/create',
+  async (data) => {
+    const result = await client(`/api/customers/${data.customerId}/contacts`, { data, method: 'POST' })
+    return result
+  }
+)
