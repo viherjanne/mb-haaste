@@ -22,11 +22,11 @@ const NewCustomerContact = ({ customerId, contacts}) => {
     <>
       {showSuccess ? <div className="fixed-top text-center text-bg-success">Saved, see database.json because contact fetching is broken</div> : null}
       <h1 className='fw-bold'>Customer</h1>
-    <button className='btn btn-outline-primary' onClick={createNewCustomerContact}>
-      <i className="bi bi-plus" />
-      {' '}
-      Add new random contact
-    </button>
+      <button className='btn btn-outline-primary' onClick={createNewCustomerContact}>
+        <i className="bi bi-plus" />
+        {' '}
+        Add new random contact
+      </button>
     </>
   )
 }
