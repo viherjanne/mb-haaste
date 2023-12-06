@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createCustomerContact } from '../customerSlices'
+import { createCustomerContact } from './customerSlices'
 import PropTypes from 'prop-types';
 
 const NewCustomerContact = ({ customerId, contacts}) => {

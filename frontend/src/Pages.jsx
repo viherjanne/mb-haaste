@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import CustomerTable from './CustomerTable'
-import ContactTable from './ContactTable'
-import CustomerContactTable from './CustomerContactTable'
+import CustomerTable from './components/customer/CustomerTable'
+import ContactTable from './components/contact/ContactTable'
+import CustomerContactTable from './components/customer/CustomerContactTable'
 import { useParams } from 'react-router-dom'
 import MBTodo from './MBTodo'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCustomerById, fetchCustomers, updateCustomer } from './customerSlices'
-import { fetchContacts } from './contactSlices'
-import NewCustomer from './NewCustomer'
+import { fetchCustomerById, fetchCustomers, updateCustomer } from './components/customer/customerSlices'
+import { fetchContacts } from './components/contact/contactSlices'
+import NewCustomer from './components/customer/NewCustomer'
 
 const useCustomers = () => {
   const dispatch = useDispatch()

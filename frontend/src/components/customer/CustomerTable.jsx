@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom';
-import MBTodo from './MBTodo';
-import DropdownBoolean from './components/filters/DropdownBoolean';
+import MBTodo from '../../MBTodo';
+import DropdownBoolean from '../filters/DropdownBoolean';
 import { useState } from 'react';
 
 const Table = ({ customers }) => {
