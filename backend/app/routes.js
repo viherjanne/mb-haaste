@@ -63,6 +63,12 @@ routes.post('/api/contacts', async (req, res) => {
 */
 
 // MB-TODO: Write a SQL query in comment how to fetch a contacts of customer using provided database pseudo schema
+/**
+ * SELECT c.contact_id, c.first_name, c.last_name
+ * FROM customer_contact AS cc
+ * JOIN contact AS c ON(cc.contact_id = c.contact_id)
+ * WHERE cc.customer_id = :customerId
+ */
 // MB-TODO: Create route for fetching contacts of a customer `/api/customers/:customerId/contacts`
 routes.get('/api/customers/:customerId/contacts', async (req, res) => {
   const { customerId } = req.params
@@ -71,6 +77,19 @@ routes.get('/api/customers/:customerId/contacts', async (req, res) => {
 })
 
 // MB-TODO: Write a SQL query in comment how to upsert a contacts to a customer using provided database pseudo schema
+/**
+ * WITH c AS (
+ *  INSERT INTO contact (contact_id, first_name, last_name) VALUES(1, 'Aku', 'Ankka')
+ *  ON CONFLICT (contact_id)
+ *  DO UPDATE SET first_name = 'Aku', last_name = 'Ankka'
+ *  RETURNING contact_id
+ * )
+ * INSERT INTO customer_contact
+ * SELECT :customerId, c.contact_id
+ * FROM c
+ * ON CONFLICT (customer_id, contact_id)
+ * DO NOTHING
+ */
 // MB-TODO: Create route for adding contact to a customer `/api/customers/:customerId/contacts`
 routes.post('/api/customers/:customerId/contacts', async (req, res) => {
   const { customerId} = req.params
@@ -80,6 +99,11 @@ routes.post('/api/customers/:customerId/contacts', async (req, res) => {
 })
 
 // MB-TODO: Write a SQL query in comment how to delete a contact of customer using provided database pseudo schema
+/**
+ * DELETE FROM customer_contact WHERE customer_id = :customerId AND contact_id = :contactId
+ * -- Depending on the use case, the contact might also have to be removed from the contact-table, or left there
+ * -- waiting to be attached to the customer again
+ */
 // MB-TODO:s Create route for deleting contact of customer `/api/customers/:customerId/contacts/:contactId`
 routes.delete('/api/customers/:customerId/contacts/:contactId', async (req, res) => {
   const { customerId, contactId } = req.params
